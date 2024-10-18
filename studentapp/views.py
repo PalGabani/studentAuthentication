@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from rest_framework.decorators import api_view
 from .serializer import UserSerializer
 from rest_framework.response import Response
@@ -51,7 +50,6 @@ def loginview(request):
     response.set_cookie( key='refershToken',value=refreshtoken,httponly=True,expires=refreshtokenexpiry)
 
     response.data={"accessToken":accesstoken,"refreshToken":refreshtoken}
-
     return response
 
 
@@ -64,11 +62,9 @@ def userview(request):
     
     if not accessToken:
         if not refreshToken:
-            
             raise AuthenticationFailed("Unauthenticated!!!")
         else:
             try:
-            
                 payloadRefreshToken = jwt.decode(refreshToken, 'secret', algorithms=['HS256'])
                 
                 accesstokenexpiry = datetime.datetime.utcnow() + datetime.timedelta(minutes=1)
@@ -107,10 +103,10 @@ def userview(request):
 @api_view(['POST'])
 def logoutview(request):
     response = Response()
-
    
     response.delete_cookie('accessToken')
     response.delete_cookie('refreshToken')
 
     response.data = {"message": "Logged out successfully"}
+    
     return response
