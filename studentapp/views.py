@@ -11,7 +11,7 @@ def registerview(request):
     serializer=UserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     serializer.save()
-    return Response(serializer.data)
+    return Response({"message":"Sucessfully Registered!!!"})
 
 
 @api_view(['POST'])
@@ -108,5 +108,5 @@ def logoutview(request):
     response.delete_cookie('refreshToken')
 
     response.data = {"message": "Logged out successfully"}
-    
+
     return response
